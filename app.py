@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 import os
+import numpy as np # Numpy'ı doğrudan içe aktarıyoruz
 
 # -----------------------------
 # 1. VERİYİ YÜKLE
@@ -35,7 +36,6 @@ df = df.dropna(subset=["hastane_sayisi", "yatak_sayisi", "nufus"])
 # -----------------------------
 # 4. ORANLARI OLUŞTUR (100.000 Kişi Başına)
 # -----------------------------
-# Sayıları daha okunabilir yapmak için 100.000 ile çarpıyoruz
 df["hastane_oran"] = (df["hastane_sayisi"] / df["nufus"]) * 100000
 df["yatak_oran"] = (df["yatak_sayisi"] / df["nufus"]) * 100000
 
@@ -95,7 +95,7 @@ tab1, tab2 = st.tabs(["🏥 Hastane Oranı Grafiği", "🛌 Yatak Oranı Grafiğ
 with tab1:
     fig1, ax1 = plt.subplots(figsize=(10, 6))
     top10_h = df.sort_values("hastane_oran", ascending=False).head(10)
-    colors = plt.cm.Blues(pd.np.linspace(0.8, 0.4, 10))
+    # Hatalı olan pd.np kısmı yerine np.linspace kullandık
     ax1.barh(top10_h["il"], top10_h["hastane_oran"], color="skyblue")
     ax1.set_title("100.000 Kişi Başına En Çok Hastane Düşen İller")
     ax1.invert_yaxis()
