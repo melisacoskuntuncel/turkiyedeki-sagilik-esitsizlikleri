@@ -49,7 +49,9 @@ row = df[df["il"] == il_sec]
 # -----------------------------
 st.subheader(f"{il_sec} Verileri")
 
-st.write("Hastane Oranı:", float(row["hastane_oran"]))
+# Verinin boş olup olmadığını kontrol ederek yazdır
+hastane_orani = row["hastane_oran"].values[0] if not row.empty else 0
+st.write(f"Hastane Oranı: {hastane_orani:.2f}")
 st.write("Yatak Oranı:", float(row["yatak_oran"]))
 
 # -----------------------------
